@@ -20,5 +20,9 @@
   "bugs": {
     "url": "https://github.com/Dletta/gun-acl/issues"
   },
-  "homepage": "https://github.com/Dletta/gun-acl#readme"
+  "homepage": "https://github.com/Dletta/gun-acl#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "gun": "^0.2019.930"
+  }
 }
