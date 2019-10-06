@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>ACL trial</title>
+  </head>
+  <script src="https://cdn.jsdelivr.net/npm/gun/gun.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gun/lib/promise.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gun/sea.js"></script>
+  <body>
+    Please login and see what happens. <br>
+    <input type="text" id="un" value="username"><br>
+    <input type="text" id="pp" value="passphrase"><br>
+    <button type="button" onclick="logIn()">Log me in</button>
+    <button type="button" onclick="createUser()">Create</button>
+  </body>
+  <script type="application/javascript">
+    const peers = [location.origin+'/gun'];
+    const gun = Gun({peers:peers,axe:false});
+
+    const createUser = function () {
+      let userName = document.getElementById('un').value;
+      let passphrase = document.getElementById('pp').value;
+      gun.user().create(userName, passphrase, (user)=>{
+        console.log('created', user);
+      })
+    }
+
+    const logIn = function () {
+      let userName = document.getElementById('un').value;
+      let passphrase = document.getElementById('pp').value;
+      gun.user().auth(userName, passphrase, (ack)=>{
+        if(ack.err){console.log('err try again', err)}
+        console.log('logged in', ack);
+      })
+    }
+  </script>
+</html>

@@ -6,8 +6,14 @@ const SEA = require("gun/sea");
 const port = (process.env.PORT || 8080);
 const host = '0.0.0.0';
 
-let userN = process.argv[2];
-let passphrase = process.argv[3];
+let userN = process.argv[2]; // user name from cli
+let passphrase = process.argv[3]; // passphrase from cli
+
+try {
+  var publicKey = process.argv[4]; // Pass a plubic key to trust
+} catch (e) {
+  console.log(e);
+}
 
 const app = express();
 app.use(Gun.serve);
@@ -33,6 +39,15 @@ function logAuth() {
       setTimeout(logAuth.bind(this), 1000)
     } else {
       console.log('User logged in');
+      // add some logic about making a specified user an admin (trust)
+      if(publicKey != undefined){
+        console.log('Adding publicKey to my trusted admins', publicKey);
+
+        gun.user(publicKey).once((user)=>{
+          console.log(`added ${user.alias} to the trusted list.`)
+        })
+
+      }
     }
   });
 }
