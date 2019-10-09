@@ -27,10 +27,12 @@ var authToSharedArea = async function (groupName, pubKey, alias) {
   var pubKeyal = Object.keys(useral);
   pubKeyal = pubKeyal[1];
   console.log(pubKeyal);
+  var otherUser = await gun.get('~'+pubKey).promOnce();
+  console.log(otherUser.data);
   var enc = await gun.get(pubKeyal).get('trust').get(groupName).get(pubKey).promOnce();
   enc = enc.data;
   console.log(enc);
-  var secret = await SEA.secret(user._.sea.epub, /*other user*/);
+  var secret = await SEA.secret(otherUser.data.epub, {epub:user._.sea.epub,epriv:user._.sea.epriv});
   var groupKey = await SEA.decrypt(enc, secret);
   user.leave();
   return await new Promise((res,rej)=>{
