@@ -30,7 +30,7 @@
       let userName = document.getElementById('un').value;
       let passphrase = document.getElementById('pp').value;
       gun.user().auth(userName, passphrase, (ack)=>{
-        if(ack.err){console.log('err try again', err)}
+        if(ack.err){console.log('err try again', ack.err)}
         console.log('logged in', ack);
       })
     }
